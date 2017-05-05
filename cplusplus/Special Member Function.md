@@ -1,5 +1,6 @@
-
 # Special Member Function
+
+https://accu.org/index.php/journals/1896
 
 http://www.enyo.de/fw/notes/cpp-auto-members.html 
 
