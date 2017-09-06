@@ -80,8 +80,13 @@ struct Producer
             Message message;
             message.seq = count;
             snprintf(message.text, 20, "halo %d", count);
-            std::unique_lock<std::mutex>(mutex);
-            bool ret = queue.Produce(message);
+
+            bool ret;
+            {
+                std::unique_lock<std::mutex>(mutex);
+                ret = queue.Produce(message);
+            }
+
             if (ret)
             {
                 ++count;
@@ -107,8 +112,13 @@ struct Consumer
             }
 
             Message message;
-            std::unique_lock<std::mutex>(mutex);
-            bool ret = queue.Consume(message);
+
+            bool ret;
+            {
+                std::unique_lock<std::mutex>(mutex);
+                ret = queue.Consume(message);
+            };
+
             if (ret)
             {
                 std::cout << "Consumer: " << message.text << std::endl;
