@@ -78,15 +78,16 @@ struct Producer
             }
 
             Message message;
-            message.seq = count++;
+            message.seq = count;
             snprintf(message.text, 20, "halo %d", count);
             std::unique_lock<std::mutex>(mutex);
             bool ret = queue.Produce(message);
             if (ret)
             {
+                ++count;
                 std::cout << "Producer: " << message.text << std::endl;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
         }
     };
 };
@@ -112,7 +113,7 @@ struct Consumer
             {
                 std::cout << "Consumer: " << message.text << std::endl;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
         }
     };
 };
